@@ -2,6 +2,7 @@ using System.Reflection;
 using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using WebApplication1;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,12 +18,17 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.AddMvcCore();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapGet("/", () => "Hello World!");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
+app.MapGet("/", () => "Hello World!");
 app.Run();
